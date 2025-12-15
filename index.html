@@ -31,6 +31,61 @@
             display: flex;
             gap: 24px;
             backdrop-filter: blur(10px);
+            max-width: calc(100% - 48px);
+            margin: 24px auto;
+            height: auto;
+            min-height: 300px;
+            box-sizing: border-box;
+            position: relative;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        
+        /* 确保body可以在需要时滚动 */
+        body {
+            overflow: auto;
+        }
+        
+        /* 适配小屏幕 */
+        @media (max-width: 768px) {
+            .game-container {
+                flex-direction: column;
+                align-items: center;
+                padding: 16px;
+                gap: 16px;
+                max-width: calc(100% - 32px);
+                margin: 16px auto;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .score {
+                font-size: 20px;
+            }
+            
+            .signature {
+                font-size: 12px;
+                padding: 8px;
+            }
+        }
+        
+        /* 右下角署名样式 */
+        .signature {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
         
         /* 游戏区域 */
@@ -38,6 +93,26 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
+            width: auto;
+            max-width: 100%;
+            align-items: center;
+            box-sizing: border-box;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        /* 信息面板 */
+        .info-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            min-width: 200px;
+            width: auto;
+        }
+        
+        /* 确保游戏容器能够根据内容自动调整大小 */
+        body {
+            overflow-x: auto;
         }
         
         /* 游戏标题 */
@@ -78,6 +153,9 @@
             justify-content: center;
             gap: 12px;
             margin-top: 12px;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 100%;
         }
         
         /* 按钮样式 - 苹果风格 */
@@ -92,6 +170,9 @@
             cursor: pointer;
             transition: all 0.2s ease-in-out;
             box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
+            white-space: nowrap;
+            min-width: auto;
+            flex-shrink: 0;
         }
         
         button:hover {
@@ -105,12 +186,42 @@
             box-shadow: 0 2px 6px rgba(0, 122, 255, 0.3);
         }
         
+        /* 适配小屏幕的按钮样式 */
+        @media (max-width: 600px) {
+            button {
+                padding: 10px 18px;
+                font-size: 14px;
+                border-radius: 10px;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            button {
+                padding: 8px 16px;
+                font-size: 12px;
+                border-radius: 8px;
+            }
+            
+            .controls {
+                gap: 8px;
+            }
+        }
+        
         /* 游戏信息面板 */
         .info-panel {
             display: flex;
             flex-direction: column;
             gap: 16px;
-            min-width: 200px;
+            min-width: 150px;
+            max-width: 250px;
+            width: auto;
+        }
+        
+        /* 适配小屏幕 - 进一步减小信息面板宽度 */
+        @media (max-width: 480px) {
+            .info-panel {
+                min-width: 120px;
+            }
         }
         
         /* 游戏说明和下一个方块容器 */
@@ -251,7 +362,9 @@
         // 游戏配置
         const COLS = 10; // 游戏板列数
         const ROWS = 20; // 游戏板行数
-        const BLOCK_SIZE = 30; // 方块大小（像素）
+        let BLOCK_SIZE = 30; // 方块大小（像素）- 动态调整
+        const MIN_BLOCK_SIZE = 15; // 最小方块大小
+        const MAX_BLOCK_SIZE = 35; // 最大方块大小
         
         // 游戏状态
         let canvas, ctx; // 主画布和上下文
@@ -264,6 +377,7 @@
         let baseGameSpeed = 1000; // 基础游戏速度（用于难度调整）
         let gameInterval; // 游戏定时器
         let isPlaying = false; // 游戏是否正在进行
+        let canvasScale = 1; // 画布缩放比例
         
         // 方块颜色 - 苹果风格配色
         const COLORS = [
@@ -276,6 +390,9 @@
             '#AF52DE', // T型（紫色）
             '#FF3B30'  // Z型（红色）
         ];
+        
+        // 固定后的统一颜色
+        const LOCKED_COLOR = '#8E8E93'; // 灰色 - 苹果风格的统一颜色
         
         // 方块形状定义（7种俄罗斯方块）
         const SHAPES = [
@@ -323,6 +440,63 @@
             ]
         ];
         
+        // 计算合适的方块大小，根据窗口尺寸动态调整
+        function calculateBlockSize() {
+            // 获取可用空间，考虑游戏容器的内边距和边距
+            const containerWidth = window.innerWidth - 96; // 减去边距和内边距
+            const windowHeight = window.innerHeight;
+            
+            // 计算基于宽度的最大方块大小
+            const maxBlockSizeByWidth = Math.floor(containerWidth / COLS);
+            // 计算基于高度的最大方块大小
+            const maxBlockSizeByHeight = Math.floor((windowHeight - 200) / ROWS);
+            
+            // 取最小值，确保在窗口内
+            let newBlockSize = Math.min(maxBlockSizeByWidth, maxBlockSizeByHeight);
+            
+            // 限制方块大小在合理范围内
+            newBlockSize = Math.max(MIN_BLOCK_SIZE, newBlockSize);
+            newBlockSize = Math.min(MAX_BLOCK_SIZE, newBlockSize);
+            
+            return newBlockSize;
+        }
+        
+        // 调整画布大小，适应缩放
+        function resizeCanvas() {
+            // 获取游戏容器的可用宽度，考虑窗口大小和边距
+            const availableWidth = window.innerWidth - 144; // 减去游戏容器的边距和内边距
+            const availableHeight = window.innerHeight - 200; // 减去游戏容器的边距和内边距
+            
+            // 计算基于可用宽度的最大方块大小
+            const maxBlockSizeByWidth = Math.floor(availableWidth / COLS);
+            // 计算基于可用高度的最大方块大小
+            const maxBlockSizeByHeight = Math.floor(availableHeight / ROWS);
+            
+            // 取最小值，确保在窗口内
+            let newBlockSize = Math.min(maxBlockSizeByWidth, maxBlockSizeByHeight);
+            
+            // 限制方块大小在合理范围内
+            newBlockSize = Math.max(MIN_BLOCK_SIZE, newBlockSize);
+            newBlockSize = Math.min(MAX_BLOCK_SIZE, newBlockSize);
+            
+            BLOCK_SIZE = newBlockSize;
+            
+            // 更新主画布大小
+            const newWidth = COLS * BLOCK_SIZE;
+            const newHeight = ROWS * BLOCK_SIZE;
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+            
+            // 更新下一个方块画布大小
+            const nextCanvasSize = 5 * BLOCK_SIZE;
+            nextCanvas.width = nextCanvasSize;
+            nextCanvas.height = nextCanvasSize;
+            
+            // 重新渲染游戏
+            drawBoard();
+            drawNextPiece();
+        }
+        
         // 初始化游戏
         function init() {
             // 获取主画布和上下文
@@ -340,6 +514,9 @@
             currentPiece = createPiece();
             nextPiece = createPiece();
             
+            // 调整画布大小
+            resizeCanvas();
+            
             // 渲染初始状态
             drawBoard();
             drawNextPiece();
@@ -349,6 +526,7 @@
             document.getElementById('pauseBtn').addEventListener('click', pauseGame);
             document.getElementById('restartBtn').addEventListener('click', restartGame);
             document.addEventListener('keydown', handleKeyPress);
+            window.addEventListener('resize', resizeCanvas); // 添加窗口大小变化事件监听
             
             // 添加难度选择事件监听
             document.querySelectorAll('.difficulty-btn').forEach(btn => {
@@ -394,12 +572,12 @@
             // 清空画布
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // 绘制游戏板上的方块
+            // 绘制游戏板上的方块 - 使用统一颜色
             for (let row = 0; row < ROWS; row++) {
                 for (let col = 0; col < COLS; col++) {
                     const colorIndex = board[row][col];
                     if (colorIndex !== 0) {
-                        drawBlock(col, row, colorIndex);
+                        drawBlock(col, row, colorIndex, false); // 固定方块使用统一颜色
                     }
                 }
             }
@@ -409,8 +587,10 @@
         }
         
         // 绘制单个方块
-        function drawBlock(x, y, colorIndex) {
-            const color = COLORS[colorIndex];
+        function drawBlock(x, y, colorIndex, isCurrentPiece = false) {
+            // 如果是固定在游戏板上的方块，使用统一颜色
+            // 如果是当前移动的方块，使用原来的颜色
+            const color = isCurrentPiece ? COLORS[colorIndex] : LOCKED_COLOR;
             const px = x * BLOCK_SIZE;
             const py = y * BLOCK_SIZE;
             
@@ -431,7 +611,7 @@
                     if (piece.shape[row][col] !== 0) {
                         const x = piece.x + col;
                         const y = piece.y + row;
-                        drawBlock(x, y, piece.color);
+                        drawBlock(x, y, piece.color, true); // 当前移动的方块使用原来的颜色
                     }
                 }
             }
@@ -442,8 +622,10 @@
             // 清空下一个方块画布
             nextCtx.clearRect(0, 0, nextCanvas.width, nextCanvas.height);
             
-            // 计算缩放比例，使方块适合预览区域
-            const previewSize = 24; // 预览方块大小
+            // 计算预览方块大小，基于当前方块大小的80%
+            const previewSize = BLOCK_SIZE * 0.8;
+            
+            // 计算偏移量，使方块居中显示
             const offsetX = (nextCanvas.width - nextPiece.shape[0].length * previewSize) / 2;
             const offsetY = (nextCanvas.height - nextPiece.shape.length * previewSize) / 2;
             
@@ -700,5 +882,7 @@
         // 页面加载完成后初始化游戏
         window.addEventListener('load', init);
     </script>
-</body>
+<!-- 右下角署名 -->
+    <div class="signature">written by YCS</div>
+    </body>
 </html>
