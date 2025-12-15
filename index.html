@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¶íÂŞË¹·½¿é</title>
+    <title>ä¿„ç½—æ–¯æ–¹å—</title>
     <style>
-        /* È«¾ÖÑùÊ½ - Æ»¹û·ç¸ñ */
+        /* å…¨å±€æ ·å¼ - è‹¹æœé£æ ¼ */
         * {
             margin: 0;
             padding: 0;
@@ -22,7 +22,7 @@
             color: #333;
         }
         
-        /* ÓÎÏ·ÈİÆ÷ - Æ»¹û·ç¸ñ¿¨Æ¬Éè¼Æ */
+        /* æ¸¸æˆå®¹å™¨ - è‹¹æœé£æ ¼å¡ç‰‡è®¾è®¡ */
         .game-container {
             background-color: rgba(255, 255, 255, 0.95);
             padding: 24px;
@@ -33,14 +33,14 @@
             backdrop-filter: blur(10px);
         }
         
-        /* ÓÎÏ·ÇøÓò */
+        /* æ¸¸æˆåŒºåŸŸ */
         .game-area {
             display: flex;
             flex-direction: column;
             gap: 16px;
         }
         
-        /* ÓÎÏ·±êÌâ */
+        /* æ¸¸æˆæ ‡é¢˜ */
         h1 {
             text-align: center;
             color: #1d1d1f;
@@ -50,7 +50,7 @@
             letter-spacing: -0.5px;
         }
         
-        /* ·ÖÊıÏÔÊ¾ */
+        /* åˆ†æ•°æ˜¾ç¤º */
         .score {
             text-align: center;
             font-size: 24px;
@@ -62,7 +62,7 @@
             margin-bottom: 8px;
         }
         
-        /* ÓÎÏ·»­²¼ */
+        /* æ¸¸æˆç”»å¸ƒ */
         #gameCanvas {
             border: 3px solid #e0e0e0;
             background-color: #1d1d1f;
@@ -72,7 +72,7 @@
             box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
         }
         
-        /* ¿ØÖÆÃæ°å */
+        /* æ§åˆ¶é¢æ¿ */
         .controls {
             display: flex;
             justify-content: center;
@@ -80,7 +80,7 @@
             margin-top: 12px;
         }
         
-        /* °´Å¥ÑùÊ½ - Æ»¹û·ç¸ñ */
+        /* æŒ‰é’®æ ·å¼ - è‹¹æœé£æ ¼ */
         button {
             padding: 12px 24px;
             font-size: 16px;
@@ -105,7 +105,7 @@
             box-shadow: 0 2px 6px rgba(0, 122, 255, 0.3);
         }
         
-        /* ÓÎÏ·ĞÅÏ¢Ãæ°å */
+        /* æ¸¸æˆä¿¡æ¯é¢æ¿ */
         .info-panel {
             display: flex;
             flex-direction: column;
@@ -113,7 +113,7 @@
             min-width: 200px;
         }
         
-        /* ÓÎÏ·ËµÃ÷ºÍÏÂÒ»¸ö·½¿éÈİÆ÷ */
+        /* æ¸¸æˆè¯´æ˜å’Œä¸‹ä¸€ä¸ªæ–¹å—å®¹å™¨ */
         .instructions, .next-piece {
             background-color: #f2f2f7;
             padding: 20px;
@@ -142,7 +142,7 @@
             align-items: center;
         }
         
-        /* ÏÂÒ»¸ö·½¿éÔ¤ÀÀ */
+        /* ä¸‹ä¸€ä¸ªæ–¹å—é¢„è§ˆ */
         .next-piece {
             text-align: center;
         }
@@ -155,7 +155,7 @@
             border-radius: 8px;
         }
         
-        /* ÄÑ¶ÈÑ¡Ôñ */
+        /* éš¾åº¦é€‰æ‹© */
         .difficulty {
             background-color: #f2f2f7;
             padding: 20px;
@@ -201,121 +201,121 @@
 </head>
 <body>
     <div class="game-container">
-        <!-- ÓÎÏ·ÇøÓò -->
+        <!-- æ¸¸æˆåŒºåŸŸ -->
         <div class="game-area">
-            <h1>¶íÂŞË¹·½¿é</h1>
-            <div class="score">·ÖÊı: <span id="score">0</span></div>
+            <h1>ä¿„ç½—æ–¯æ–¹å—</h1>
+            <div class="score">åˆ†æ•°: <span id="score">0</span></div>
             <canvas id="gameCanvas" width="300" height="600"></canvas>
             <div class="controls">
-                <button id="startBtn">¿ªÊ¼ÓÎÏ·</button>
-                <button id="pauseBtn">ÔİÍ£</button>
-                <button id="restartBtn">ÖØĞÂ¿ªÊ¼</button>
+                <button id="startBtn">å¼€å§‹æ¸¸æˆ</button>
+                <button id="pauseBtn">æš‚åœ</button>
+                <button id="restartBtn">é‡æ–°å¼€å§‹</button>
             </div>
         </div>
         
-        <!-- ÓÎÏ·ĞÅÏ¢Ãæ°å -->
+        <!-- æ¸¸æˆä¿¡æ¯é¢æ¿ -->
         <div class="info-panel">
-            <!-- ÏÂÒ»¸ö·½¿é -->
+            <!-- ä¸‹ä¸€ä¸ªæ–¹å— -->
             <div class="next-piece">
-                <h3>ÏÂÒ»¸ö·½¿é</h3>
+                <h3>ä¸‹ä¸€ä¸ªæ–¹å—</h3>
                 <canvas id="nextCanvas" width="120" height="120"></canvas>
             </div>
             
-            <!-- ÄÑ¶ÈÑ¡Ôñ -->
+            <!-- éš¾åº¦é€‰æ‹© -->
             <div class="difficulty">
-                <h3>ÄÑ¶È</h3>
+                <h3>éš¾åº¦</h3>
                 <div class="difficulty-selector">
-                    <button class="difficulty-btn active" data-speed="1000">¼òµ¥</button>
-                    <button class="difficulty-btn" data-speed="700">ÖĞµÈ</button>
-                    <button class="difficulty-btn" data-speed="400">À§ÄÑ</button>
-                    <button class="difficulty-btn" data-speed="200">×¨¼Ò</button>
+                    <button class="difficulty-btn active" data-speed="1000">ç®€å•</button>
+                    <button class="difficulty-btn" data-speed="700">ä¸­ç­‰</button>
+                    <button class="difficulty-btn" data-speed="400">å›°éš¾</button>
+                    <button class="difficulty-btn" data-speed="200">ä¸“å®¶</button>
                 </div>
             </div>
             
-            <!-- ÓÎÏ·ËµÃ÷ -->
+            <!-- æ¸¸æˆè¯´æ˜ -->
             <div class="instructions">
-                <h3>ÓÎÏ·ËµÃ÷</h3>
+                <h3>æ¸¸æˆè¯´æ˜</h3>
                 <ul>
-                    <li>¡û ¡ú ×óÓÒÒÆ¶¯</li>
-                    <li>¡ı ¼ÓËÙÏÂÂä</li>
-                    <li>¡ü Ğı×ª·½¿é</li>
-                    <li>¿Õ¸ñ Ö±½ÓÏÂÂä</li>
-                    <li>¿ªÊ¼ÓÎÏ·ºó×Ô¶¯ÏÂÂä</li>
-                    <li>Ïû³ıÒ»ĞĞµÃ100·Ö</li>
+                    <li>â† â†’ å·¦å³ç§»åŠ¨</li>
+                    <li>â†“ åŠ é€Ÿä¸‹è½</li>
+                    <li>â†‘ æ—‹è½¬æ–¹å—</li>
+                    <li>ç©ºæ ¼ ç›´æ¥ä¸‹è½</li>
+                    <li>å¼€å§‹æ¸¸æˆåè‡ªåŠ¨ä¸‹è½</li>
+                    <li>æ¶ˆé™¤ä¸€è¡Œå¾—100åˆ†</li>
                 </ul>
             </div>
         </div>
     </div>
 
     <script>
-        // ÓÎÏ·ÅäÖÃ
-        const COLS = 10; // ÓÎÏ·°åÁĞÊı
-        const ROWS = 20; // ÓÎÏ·°åĞĞÊı
-        const BLOCK_SIZE = 30; // ·½¿é´óĞ¡£¨ÏñËØ£©
+        // æ¸¸æˆé…ç½®
+        const COLS = 10; // æ¸¸æˆæ¿åˆ—æ•°
+        const ROWS = 20; // æ¸¸æˆæ¿è¡Œæ•°
+        const BLOCK_SIZE = 30; // æ–¹å—å¤§å°ï¼ˆåƒç´ ï¼‰
         
-        // ÓÎÏ·×´Ì¬
-        let canvas, ctx; // Ö÷»­²¼ºÍÉÏÏÂÎÄ
-        let nextCanvas, nextCtx; // ÏÂÒ»¸ö·½¿é»­²¼ºÍÉÏÏÂÎÄ
-        let board; // ÓÎÏ·°å
-        let currentPiece; // µ±Ç°·½¿é
-        let nextPiece; // ÏÂÒ»¸ö·½¿é
-        let score = 0; // ·ÖÊı
-        let gameSpeed = 1000; // ³õÊ¼ÏÂÂäËÙ¶È£¨ºÁÃë£©
-        let baseGameSpeed = 1000; // »ù´¡ÓÎÏ·ËÙ¶È£¨ÓÃÓÚÄÑ¶Èµ÷Õû£©
-        let gameInterval; // ÓÎÏ·¶¨Ê±Æ÷
-        let isPlaying = false; // ÓÎÏ·ÊÇ·ñÕıÔÚ½øĞĞ
+        // æ¸¸æˆçŠ¶æ€
+        let canvas, ctx; // ä¸»ç”»å¸ƒå’Œä¸Šä¸‹æ–‡
+        let nextCanvas, nextCtx; // ä¸‹ä¸€ä¸ªæ–¹å—ç”»å¸ƒå’Œä¸Šä¸‹æ–‡
+        let board; // æ¸¸æˆæ¿
+        let currentPiece; // å½“å‰æ–¹å—
+        let nextPiece; // ä¸‹ä¸€ä¸ªæ–¹å—
+        let score = 0; // åˆ†æ•°
+        let gameSpeed = 1000; // åˆå§‹ä¸‹è½é€Ÿåº¦ï¼ˆæ¯«ç§’ï¼‰
+        let baseGameSpeed = 1000; // åŸºç¡€æ¸¸æˆé€Ÿåº¦ï¼ˆç”¨äºéš¾åº¦è°ƒæ•´ï¼‰
+        let gameInterval; // æ¸¸æˆå®šæ—¶å™¨
+        let isPlaying = false; // æ¸¸æˆæ˜¯å¦æ­£åœ¨è¿›è¡Œ
         
-        // ·½¿éÑÕÉ« - Æ»¹û·ç¸ñÅäÉ«
+        // æ–¹å—é¢œè‰² - è‹¹æœé£æ ¼é…è‰²
         const COLORS = [
-            '#000000', // ¿Õ£¨ºÚÉ«£©
-            '#FF2D55', // IĞÍ£¨·ÛÉ«£©
-            '#007AFF', // JĞÍ£¨À¶É«£©
-            '#FF9500', // LĞÍ£¨³ÈÉ«£©
-            '#FFCC00', // OĞÍ£¨»ÆÉ«£©
-            '#34C759', // SĞÍ£¨ÂÌÉ«£©
-            '#AF52DE', // TĞÍ£¨×ÏÉ«£©
-            '#FF3B30'  // ZĞÍ£¨ºìÉ«£©
+            '#000000', // ç©ºï¼ˆé»‘è‰²ï¼‰
+            '#FF2D55', // Iå‹ï¼ˆç²‰è‰²ï¼‰
+            '#007AFF', // Jå‹ï¼ˆè“è‰²ï¼‰
+            '#FF9500', // Lå‹ï¼ˆæ©™è‰²ï¼‰
+            '#FFCC00', // Oå‹ï¼ˆé»„è‰²ï¼‰
+            '#34C759', // Så‹ï¼ˆç»¿è‰²ï¼‰
+            '#AF52DE', // Tå‹ï¼ˆç´«è‰²ï¼‰
+            '#FF3B30'  // Zå‹ï¼ˆçº¢è‰²ï¼‰
         ];
         
-        // ·½¿éĞÎ×´¶¨Òå£¨7ÖÖ¶íÂŞË¹·½¿é£©
+        // æ–¹å—å½¢çŠ¶å®šä¹‰ï¼ˆ7ç§ä¿„ç½—æ–¯æ–¹å—ï¼‰
         const SHAPES = [
-            // IĞÍ
+            // Iå‹
             [
                 [0, 0, 0, 0],
                 [1, 1, 1, 1],
                 [0, 0, 0, 0],
                 [0, 0, 0, 0]
             ],
-            // JĞÍ
+            // Jå‹
             [
                 [2, 0, 0],
                 [2, 2, 2],
                 [0, 0, 0]
             ],
-            // LĞÍ
+            // Lå‹
             [
                 [0, 0, 3],
                 [3, 3, 3],
                 [0, 0, 0]
             ],
-            // OĞÍ
+            // Oå‹
             [
                 [4, 4],
                 [4, 4]
             ],
-            // SĞÍ
+            // Så‹
             [
                 [0, 5, 5],
                 [5, 5, 0],
                 [0, 0, 0]
             ],
-            // TĞÍ
+            // Tå‹
             [
                 [0, 6, 0],
                 [6, 6, 6],
                 [0, 0, 0]
             ],
-            // ZĞÍ
+            // Zå‹
             [
                 [7, 7, 0],
                 [0, 7, 7],
@@ -323,34 +323,34 @@
             ]
         ];
         
-        // ³õÊ¼»¯ÓÎÏ·
+        // åˆå§‹åŒ–æ¸¸æˆ
         function init() {
-            // »ñÈ¡Ö÷»­²¼ºÍÉÏÏÂÎÄ
+            // è·å–ä¸»ç”»å¸ƒå’Œä¸Šä¸‹æ–‡
             canvas = document.getElementById('gameCanvas');
             ctx = canvas.getContext('2d');
             
-            // »ñÈ¡ÏÂÒ»¸ö·½¿é»­²¼ºÍÉÏÏÂÎÄ
+            // è·å–ä¸‹ä¸€ä¸ªæ–¹å—ç”»å¸ƒå’Œä¸Šä¸‹æ–‡
             nextCanvas = document.getElementById('nextCanvas');
             nextCtx = nextCanvas.getContext('2d');
             
-            // ³õÊ¼»¯ÓÎÏ·°å
+            // åˆå§‹åŒ–æ¸¸æˆæ¿
             board = createBoard();
             
-            // ³õÊ¼»¯µ±Ç°·½¿éºÍÏÂÒ»¸ö·½¿é
+            // åˆå§‹åŒ–å½“å‰æ–¹å—å’Œä¸‹ä¸€ä¸ªæ–¹å—
             currentPiece = createPiece();
             nextPiece = createPiece();
             
-            // äÖÈ¾³õÊ¼×´Ì¬
+            // æ¸²æŸ“åˆå§‹çŠ¶æ€
             drawBoard();
             drawNextPiece();
             
-            // Ìí¼ÓÊÂ¼ş¼àÌı
+            // æ·»åŠ äº‹ä»¶ç›‘å¬
             document.getElementById('startBtn').addEventListener('click', startGame);
             document.getElementById('pauseBtn').addEventListener('click', pauseGame);
             document.getElementById('restartBtn').addEventListener('click', restartGame);
             document.addEventListener('keydown', handleKeyPress);
             
-            // Ìí¼ÓÄÑ¶ÈÑ¡ÔñÊÂ¼ş¼àÌı
+            // æ·»åŠ éš¾åº¦é€‰æ‹©äº‹ä»¶ç›‘å¬
             document.querySelectorAll('.difficulty-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('active'));
@@ -365,36 +365,36 @@
             });
         }
         
-        // ´´½¨ÓÎÏ·°å
+        // åˆ›å»ºæ¸¸æˆæ¿
         function createBoard() {
             const board = [];
             for (let row = 0; row < ROWS; row++) {
                 board[row] = [];
                 for (let col = 0; col < COLS; col++) {
-                    board[row][col] = 0; // 0±íÊ¾¿Õ
+                    board[row][col] = 0; // 0è¡¨ç¤ºç©º
                 }
             }
             return board;
         }
         
-        // ´´½¨Ëæ»ú·½¿é
+        // åˆ›å»ºéšæœºæ–¹å—
         function createPiece() {
             const shapeIndex = Math.floor(Math.random() * SHAPES.length);
             const shape = SHAPES[shapeIndex];
             return {
                 shape: shape,
-                color: shapeIndex + 1, // ÑÕÉ«Ë÷Òı´Ó1¿ªÊ¼
+                color: shapeIndex + 1, // é¢œè‰²ç´¢å¼•ä»1å¼€å§‹
                 x: Math.floor(COLS / 2) - Math.floor(shape[0].length / 2),
                 y: 0
             };
         }
         
-        // »æÖÆÓÎÏ·°å
+        // ç»˜åˆ¶æ¸¸æˆæ¿
         function drawBoard() {
-            // Çå¿Õ»­²¼
+            // æ¸…ç©ºç”»å¸ƒ
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // »æÖÆÓÎÏ·°åÉÏµÄ·½¿é
+            // ç»˜åˆ¶æ¸¸æˆæ¿ä¸Šçš„æ–¹å—
             for (let row = 0; row < ROWS; row++) {
                 for (let col = 0; col < COLS; col++) {
                     const colorIndex = board[row][col];
@@ -404,27 +404,27 @@
                 }
             }
             
-            // »æÖÆµ±Ç°·½¿é
+            // ç»˜åˆ¶å½“å‰æ–¹å—
             drawPiece(currentPiece);
         }
         
-        // »æÖÆµ¥¸ö·½¿é
+        // ç»˜åˆ¶å•ä¸ªæ–¹å—
         function drawBlock(x, y, colorIndex) {
             const color = COLORS[colorIndex];
             const px = x * BLOCK_SIZE;
             const py = y * BLOCK_SIZE;
             
-            // »æÖÆ·½¿é
+            // ç»˜åˆ¶æ–¹å—
             ctx.fillStyle = color;
             ctx.fillRect(px, py, BLOCK_SIZE, BLOCK_SIZE);
             
-            // »æÖÆ·½¿é±ß¿ò
+            // ç»˜åˆ¶æ–¹å—è¾¹æ¡†
             ctx.strokeStyle = '#FFFFFF';
             ctx.lineWidth = 1;
             ctx.strokeRect(px, py, BLOCK_SIZE, BLOCK_SIZE);
         }
         
-        // »æÖÆµ±Ç°·½¿é
+        // ç»˜åˆ¶å½“å‰æ–¹å—
         function drawPiece(piece) {
             for (let row = 0; row < piece.shape.length; row++) {
                 for (let col = 0; col < piece.shape[row].length; col++) {
@@ -437,28 +437,28 @@
             }
         }
         
-        // »æÖÆÏÂÒ»¸ö·½¿é
+        // ç»˜åˆ¶ä¸‹ä¸€ä¸ªæ–¹å—
         function drawNextPiece() {
-            // Çå¿ÕÏÂÒ»¸ö·½¿é»­²¼
+            // æ¸…ç©ºä¸‹ä¸€ä¸ªæ–¹å—ç”»å¸ƒ
             nextCtx.clearRect(0, 0, nextCanvas.width, nextCanvas.height);
             
-            // ¼ÆËãËõ·Å±ÈÀı£¬Ê¹·½¿éÊÊºÏÔ¤ÀÀÇøÓò
-            const previewSize = 24; // Ô¤ÀÀ·½¿é´óĞ¡
+            // è®¡ç®—ç¼©æ”¾æ¯”ä¾‹ï¼Œä½¿æ–¹å—é€‚åˆé¢„è§ˆåŒºåŸŸ
+            const previewSize = 24; // é¢„è§ˆæ–¹å—å¤§å°
             const offsetX = (nextCanvas.width - nextPiece.shape[0].length * previewSize) / 2;
             const offsetY = (nextCanvas.height - nextPiece.shape.length * previewSize) / 2;
             
-            // »æÖÆÏÂÒ»¸ö·½¿é
+            // ç»˜åˆ¶ä¸‹ä¸€ä¸ªæ–¹å—
             for (let row = 0; row < nextPiece.shape.length; row++) {
                 for (let col = 0; col < nextPiece.shape[row].length; col++) {
                     if (nextPiece.shape[row][col] !== 0) {
                         const x = offsetX + col * previewSize;
                         const y = offsetY + row * previewSize;
                         
-                        // »æÖÆ·½¿é
+                        // ç»˜åˆ¶æ–¹å—
                         nextCtx.fillStyle = COLORS[nextPiece.color];
                         nextCtx.fillRect(x, y, previewSize, previewSize);
                         
-                        // »æÖÆ·½¿é±ß¿ò
+                        // ç»˜åˆ¶æ–¹å—è¾¹æ¡†
                         nextCtx.strokeStyle = '#FFFFFF';
                         nextCtx.lineWidth = 1;
                         nextCtx.strokeRect(x, y, previewSize, previewSize);
@@ -467,7 +467,7 @@
             }
         }
         
-        // ¼ì²éÅö×²
+        // æ£€æŸ¥ç¢°æ’
         function checkCollision(piece, offsetX, offsetY) {
             for (let row = 0; row < piece.shape.length; row++) {
                 for (let col = 0; col < piece.shape[row].length; col++) {
@@ -475,12 +475,12 @@
                         const newX = piece.x + col + offsetX;
                         const newY = piece.y + row + offsetY;
                         
-                        // ¼ì²éÊÇ·ñ³¬³ö±ß½ç
+                        // æ£€æŸ¥æ˜¯å¦è¶…å‡ºè¾¹ç•Œ
                         if (newX < 0 || newX >= COLS || newY >= ROWS) {
                             return true;
                         }
                         
-                        // ¼ì²éÊÇ·ñÓëÒÑÓĞ·½¿éÅö×²
+                        // æ£€æŸ¥æ˜¯å¦ä¸å·²æœ‰æ–¹å—ç¢°æ’
                         if (newY >= 0 && board[newY][newX] !== 0) {
                             return true;
                         }
@@ -490,15 +490,15 @@
             return false;
         }
         
-        // Ğı×ª·½¿é
+        // æ—‹è½¬æ–¹å—
         function rotatePiece(piece) {
-            // Éî¿½±´µ±Ç°ĞÎ×´
+            // æ·±æ‹·è´å½“å‰å½¢çŠ¶
             const rotatedShape = [];
             for (let row = 0; row < piece.shape.length; row++) {
                 rotatedShape[row] = [...piece.shape[row]];
             }
             
-            // Ğı×ª¾ØÕó
+            // æ—‹è½¬çŸ©é˜µ
             const rows = rotatedShape.length;
             const cols = rotatedShape[0].length;
             const newShape = [];
@@ -510,18 +510,18 @@
                 }
             }
             
-            // ´´½¨Ğı×ªºóµÄÁÙÊ±·½¿é
+            // åˆ›å»ºæ—‹è½¬åçš„ä¸´æ—¶æ–¹å—
             const rotatedPiece = {
                 ...piece,
                 shape: newShape
             };
             
-            // ¼ì²éĞı×ªºóÊÇ·ñÅö×²
+            // æ£€æŸ¥æ—‹è½¬åæ˜¯å¦ç¢°æ’
             if (!checkCollision(rotatedPiece, 0, 0)) {
                 return rotatedPiece;
             }
             
-            // Èç¹ûÅö×²£¬³¢ÊÔµ÷ÕûÎ»ÖÃ
+            // å¦‚æœç¢°æ’ï¼Œå°è¯•è°ƒæ•´ä½ç½®
             if (!checkCollision(rotatedPiece, -1, 0)) {
                 rotatedPiece.x -= 1;
                 return rotatedPiece;
@@ -531,11 +531,11 @@
                 return rotatedPiece;
             }
             
-            // ÎŞ·¨Ğı×ª
+            // æ— æ³•æ—‹è½¬
             return piece;
         }
         
-        // ½«·½¿é¹Ì¶¨µ½ÓÎÏ·°åÉÏ
+        // å°†æ–¹å—å›ºå®šåˆ°æ¸¸æˆæ¿ä¸Š
         function lockPiece() {
             for (let row = 0; row < currentPiece.shape.length; row++) {
                 for (let col = 0; col < currentPiece.shape[row].length; col++) {
@@ -550,64 +550,64 @@
             }
         }
         
-        // Ïû³ıÍêÕûµÄĞĞ
+        // æ¶ˆé™¤å®Œæ•´çš„è¡Œ
         function clearLines() {
             let linesCleared = 0;
             
             for (let row = ROWS - 1; row >= 0; row--) {
                 if (board[row].every(cell => cell !== 0)) {
-                    // ÒÆ³ıÍêÕûµÄĞĞ
+                    // ç§»é™¤å®Œæ•´çš„è¡Œ
                     board.splice(row, 1);
-                    // ÔÚ¶¥²¿Ìí¼ÓĞÂĞĞ
+                    // åœ¨é¡¶éƒ¨æ·»åŠ æ–°è¡Œ
                     board.unshift(new Array(COLS).fill(0));
-                    // Ôö¼Ó·ÖÊı
+                    // å¢åŠ åˆ†æ•°
                     linesCleared++;
-                    // ÖØĞÂ¼ì²éµ±Ç°ĞĞ£¨ÒòÎªĞĞÒÑÏÂÒÆ£©
+                    // é‡æ–°æ£€æŸ¥å½“å‰è¡Œï¼ˆå› ä¸ºè¡Œå·²ä¸‹ç§»ï¼‰
                     row++;
                 }
             }
             
-            // ¸üĞÂ·ÖÊı
+            // æ›´æ–°åˆ†æ•°
             if (linesCleared > 0) {
                 score += linesCleared * 100;
                 document.getElementById('score').textContent = score;
-                // ¼ÓËÙÓÎÏ·
+                // åŠ é€Ÿæ¸¸æˆ
                 gameSpeed = Math.max(100, gameSpeed - 50 * linesCleared);
             }
         }
         
-        // ¼ì²éÓÎÏ·ÊÇ·ñ½áÊø
+        // æ£€æŸ¥æ¸¸æˆæ˜¯å¦ç»“æŸ
         function checkGameOver() {
             return checkCollision(currentPiece, 0, 0);
         }
         
-        // ÓÎÏ·Ö÷Ñ­»·
+        // æ¸¸æˆä¸»å¾ªç¯
         function gameLoop() {
-            // ÏòÏÂÒÆ¶¯·½¿é
+            // å‘ä¸‹ç§»åŠ¨æ–¹å—
             if (!checkCollision(currentPiece, 0, 1)) {
                 currentPiece.y++;
             } else {
-                // ¹Ì¶¨·½¿éµ½ÓÎÏ·°å
+                // å›ºå®šæ–¹å—åˆ°æ¸¸æˆæ¿
                 lockPiece();
-                // Ïû³ıÍêÕûµÄĞĞ
+                // æ¶ˆé™¤å®Œæ•´çš„è¡Œ
                 clearLines();
-                // Éú³ÉĞÂ·½¿é
+                // ç”Ÿæˆæ–°æ–¹å—
                 currentPiece = nextPiece;
                 nextPiece = createPiece();
-                // ¸üĞÂÏÂÒ»¸ö·½¿éÏÔÊ¾
+                // æ›´æ–°ä¸‹ä¸€ä¸ªæ–¹å—æ˜¾ç¤º
                 drawNextPiece();
-                // ¼ì²éÓÎÏ·ÊÇ·ñ½áÊø
+                // æ£€æŸ¥æ¸¸æˆæ˜¯å¦ç»“æŸ
                 if (checkGameOver()) {
                     endGame();
                     return;
                 }
             }
             
-            // äÖÈ¾ÓÎÏ·°å
+            // æ¸²æŸ“æ¸¸æˆæ¿
             drawBoard();
         }
         
-        // ¿ªÊ¼ÓÎÏ·
+        // å¼€å§‹æ¸¸æˆ
         function startGame() {
             if (!isPlaying) {
                 isPlaying = true;
@@ -616,7 +616,7 @@
             }
         }
         
-        // ÔİÍ£ÓÎÏ·
+        // æš‚åœæ¸¸æˆ
         function pauseGame() {
             if (isPlaying) {
                 isPlaying = false;
@@ -626,78 +626,78 @@
             }
         }
         
-        // ÖØĞÂ¿ªÊ¼ÓÎÏ·
+        // é‡æ–°å¼€å§‹æ¸¸æˆ
         function restartGame() {
-            // Í£Ö¹µ±Ç°ÓÎÏ·
+            // åœæ­¢å½“å‰æ¸¸æˆ
             isPlaying = false;
             clearInterval(gameInterval);
             
-            // ÖØÖÃÓÎÏ·×´Ì¬
+            // é‡ç½®æ¸¸æˆçŠ¶æ€
             score = 0;
             gameSpeed = baseGameSpeed;
             document.getElementById('score').textContent = score;
             
-            // ÖØĞÂ³õÊ¼»¯ÓÎÏ·°åºÍ·½¿é
+            // é‡æ–°åˆå§‹åŒ–æ¸¸æˆæ¿å’Œæ–¹å—
             board = createBoard();
             currentPiece = createPiece();
             nextPiece = createPiece();
             
-            // ÖØĞÂäÖÈ¾
+            // é‡æ–°æ¸²æŸ“
             drawBoard();
             drawNextPiece();
         }
         
-        // ½áÊøÓÎÏ·
+        // ç»“æŸæ¸¸æˆ
         function endGame() {
             isPlaying = false;
             clearInterval(gameInterval);
-            alert(`ÓÎÏ·½áÊø£¡ÄãµÄ·ÖÊıÊÇ£º${score}`);
+            alert(`æ¸¸æˆç»“æŸï¼ä½ çš„åˆ†æ•°æ˜¯ï¼š${score}`);
         }
         
-        // ´¦Àí¼üÅÌÊÂ¼ş
+        // å¤„ç†é”®ç›˜äº‹ä»¶
         function handleKeyPress(event) {
             if (!isPlaying) return;
             
             switch (event.key) {
                 case 'ArrowLeft':
-                    // ×óÒÆ
+                    // å·¦ç§»
                     if (!checkCollision(currentPiece, -1, 0)) {
                         currentPiece.x--;
                         drawBoard();
                     }
                     break;
                 case 'ArrowRight':
-                    // ÓÒÒÆ
+                    // å³ç§»
                     if (!checkCollision(currentPiece, 1, 0)) {
                         currentPiece.x++;
                         drawBoard();
                     }
                     break;
                 case 'ArrowDown':
-                    // ¼ÓËÙÏÂÂä
+                    // åŠ é€Ÿä¸‹è½
                     if (!checkCollision(currentPiece, 0, 1)) {
                         currentPiece.y++;
                         drawBoard();
                     }
                     break;
                 case 'ArrowUp':
-                    // Ğı×ª
+                    // æ—‹è½¬
                     currentPiece = rotatePiece(currentPiece);
                     drawBoard();
                     break;
                 case ' ':
-                    // Ö±½ÓÏÂÂäµ½µ×²¿
+                    // ç›´æ¥ä¸‹è½åˆ°åº•éƒ¨
                     while (!checkCollision(currentPiece, 0, 1)) {
                         currentPiece.y++;
                     }
                     drawBoard();
-                    // Á¢¼´Ö´ĞĞÏÂÒ»¸ö·½¿éµÄÉú³É
+                    // ç«‹å³æ‰§è¡Œä¸‹ä¸€ä¸ªæ–¹å—çš„ç”Ÿæˆ
                     setTimeout(gameLoop, 50);
                     break;
             }
         }
         
-        // Ò³Ãæ¼ÓÔØÍê³Éºó³õÊ¼»¯ÓÎÏ·
+        // é¡µé¢åŠ è½½å®Œæˆååˆå§‹åŒ–æ¸¸æˆ
         window.addEventListener('load', init);
     </script>
 </body>
